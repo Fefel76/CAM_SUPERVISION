@@ -47,6 +47,8 @@ app.layout = html.Div(children=[
         id='example-graph',
         figure=fig
     )
+
+    html.Img(src='/photo.jpg')
 ])
 
 if __name__ == '__main__':
