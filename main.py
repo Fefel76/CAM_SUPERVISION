@@ -1,55 +1,45 @@
-from dash import Dash, html, dcc
-import plotly.express as px
-import pandas as pd
+from flask import Flask, Response
 import os
+import time
 
-from PIL import Image
-import numpy as np
-import plotly.express as px
-
+app = Flask(__name__)
 
 
-def test():
-    # Change working dir to current running script dir:
-    print('[change directory]')
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+def gen():
+    i = 0
 
-    # load the image
-    img = np.array(Image.open('photo.jpg'))
+    while True:
+        time.sleep(5)
+        images = get_all_images()
+        image_name = images[i]
+        im = open('videos/' + image_name, 'rb').read()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + im + b'\r\n')
+        i += 1
+        if i >= len(images):
+            i = 0
 
-    fig = px.imshow(img, color_continuous_scale='gray')
-    fig.update_layout(coloraxis_showscale=False)
-    fig.update_xaxes(showticklabels=False)
-    fig.update_yaxes(showticklabels=False)
-    fig.show()
+
+def get_all_images():
+    image_folder = 'videos'
+    images = [img for img in os.listdir(image_folder)
+              if img.endswith(".jpg") or
+              img.endswith(".jpeg") or
+              img.endswith("png")]
+    return images
 
 
-app = Dash(__name__)
+@app.route('/slideshow')
+def slideshow():
+    return Response(gen(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+@app.route('/')
+def index():
+    return "<html><head></head><body><h1>Photos</h1><img src='/slideshow' style='width: 90%; height: 90%;'/>" \
+           "</body></html>"
 
-app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
-
-    html.Div(children='''
-        Dash: A web application framework for your data.
-    '''),
-
-    dcc.Graph(
-        id='example-graph',
-        figure=fig
-    )
-
-    html.Img(src='/photo.jpg')
-])
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(host='0.0.0.0', debug=True)
