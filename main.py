@@ -9,7 +9,7 @@ def gen():
     i = 0
 
     while True:
-        time.sleep(5)
+        time.sleep(1)
         images = get_all_images()
         image_name = images[i]
         im = open('videos/' + image_name, 'rb').read()
