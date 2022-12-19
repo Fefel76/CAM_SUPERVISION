@@ -5,19 +5,18 @@ import time
 app = Flask(__name__)
 
 
-def gen():
-    i = 0
+def gen(delai=1):
+
 
     while True:
-        time.sleep(1)
+
         images = get_all_images()
-        image_name = images[i]
-        im = open('videos/' + image_name, 'rb').read()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + im + b'\r\n')
-        i += 1
-        if i >= len(images):
-            i = 0
+
+        for i in range(0,len(images)):
+            im = open('videos/' + images[i], 'rb').read()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + im + b'\r\n')
+            time.sleep(delai)
 
 
 def get_all_images():
@@ -26,6 +25,7 @@ def get_all_images():
               if img.endswith(".jpg") or
               img.endswith(".jpeg") or
               img.endswith("png")]
+    images.sort()
     return images
 
 
@@ -37,7 +37,7 @@ def slideshow():
 
 @app.route('/')
 def index():
-    return "<html><head></head><body><h1>Photos</h1><img src='/slideshow' style='width: 90%; height: 90%;'/>" \
+    return "<html><head></head><body><h3>Capture suite à détection</h3><img src='/slideshow' style='width: 90%; height: 90%;'/>" \
            "</body></html>"
 
 
