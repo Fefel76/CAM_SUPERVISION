@@ -7,6 +7,7 @@ WORKDIR CAM_SUPERVISION
 
 RUN mkdir ./log
 RUN mkdir ./videos
+RUN mkdir ./conf
 
 RUN pip3 install -r requirements.txt
 ENV FLASK_APP=main.py
