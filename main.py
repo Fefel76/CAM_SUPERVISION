@@ -82,9 +82,9 @@ def get_log(N=10):
         with open("log/"+logs[i]) as file:
             # loop to read iterate
             # last n lines and print it
-            texte+=logs[i]+'<BR>'
+            texte+='<H1>'+logs[i]+'<BR></H1>'
             for line in (file.readlines()[-N:]):
-                texte+=line
+                texte+=line+'<BR>'
 
 
     return render_template('log.html',texte=texte,ip=get_IP())
