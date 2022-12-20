@@ -86,8 +86,7 @@ def get_log(N=10):
             for line in (file.readlines()[-N:]):
                 texte+=line+'\n'
 
-    return render_template('log.html',texte=texte)
-
+    return render_template('log.html',texte=texte,ip=get_IP())
 
 
 
