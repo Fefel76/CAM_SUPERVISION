@@ -3,10 +3,15 @@ import os
 import time
 import logging
 import pickle
+import socket
 
 logging.basicConfig(filename='./log/supervision.log',level=logging.DEBUG,format='%(asctime)s -- %(funcName)s -- %(process)d -- %(levelname)s -- %(message)s')
 app = Flask(__name__)
 
+
+def get_IP():
+
+    return socket.gethostbyname(socket.gethostname())
 
 #TODO gestion mémoire via générateur yield
 def get_all_images():
@@ -48,13 +53,13 @@ def param():
             pickle.dump(parametres, open("./conf/param.txt", "wb"))
         except:
             logging.warning("pas de données dans le POST param")
-    return render_template('param.html',parametres=read_param())
+    return render_template('param.html',parametres=read_param(),ip=get_IP())
 
 #TODO gestion des pages
 @app.route('/')
 def photo():
     photos = get_all_images()
-    return render_template('photo.html',photos=photos)
+    return render_template('photo.html',photos=photos,ip=get_IP())
 
 
 
