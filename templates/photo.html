@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Capture des photos</title>
+    <meta name='viewport' content="width-device-width, initial-scale=1" charset='UTF-8'>
+    <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+
+<div class="w3-container w3-teal">
+  <h1>Caméras</h1>
+</div>
+
+
+<div class="w3-row-padding w3-margin-top">
+    {% for i in range(0,photos.__len__())%}
+    <div class="w3-third">
+        <div class="w3-card">
+            <a href="{{url_for('static',filename=photos[i])}}">
+            <img src="{{url_for('static',filename=photos[i])}}" style="width:100%" alt="{{photos[i]}}" class="w3-image">
+            <div class="w3-container">
+                <h4>{{photos[i]}}</h4>
+            </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>

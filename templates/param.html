@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paramètres des photos</title>
+    <meta name='viewport' content="width-device-width, initial-scale=1" charset='UTF-8'>
+    <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+
+<form class="w3-container" action="/param" method="POST">
+    <b>
+    <label class="w3-text-blue">Découpe en blocs d'analyse </label>
+    <input class="w3-input w3-border w3-hover-black" type="text" id="decoupe" name="decoupe" value={{parametres.decoupe}}>
+
+    <label class="w3-text-blue">Seuil </label>
+    <input class="w3-input w3-border w3-hover-black" type="text" id="seuil" name="seuil" value={{parametres.seuil}}>
+
+    <label class="w3-text-blue">HOG winStride </label>
+    <input class="w3-input w3-border w3-hover-black" type="text" id="winStride" name="winStride" value={{parametres.winStride}}>
+
+    <label class="w3-text-blue">HOG padding </label>
+    <input class="w3-input w3-border w3-hover-black" type="text" id="padding" name="padding" value={{parametres.padding}}>
+
+    <label class="w3-text-blue">HOG scale </label>
+    <input class="w3-input w3-border w3-hover-black" type="text" id="scale" name="scale" value={{parametres.scale}}>
+    </b>
+    <input type="submit" value="Modifier">
+</form>
+
+</body>
+</html>

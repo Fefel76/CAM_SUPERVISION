@@ -6,7 +6,7 @@ RUN git clone https://github.com/Fefel76/CAM_SUPERVISION.git
 WORKDIR CAM_SUPERVISION
 
 RUN mkdir ./log
-RUN mkdir ./videos
+RUN mkdir ./static
 RUN mkdir ./conf
 
 RUN pip3 install -r requirements.txt
