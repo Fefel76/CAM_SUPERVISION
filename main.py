@@ -8,7 +8,7 @@ import socket
 logging.basicConfig(filename='./log/supervision.log',level=logging.DEBUG,format='%(asctime)s -- %(funcName)s -- %(process)d -- %(levelname)s -- %(message)s')
 app = Flask(__name__)
 
-
+#TODO réseaux IP DOCKER
 def get_IP():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
