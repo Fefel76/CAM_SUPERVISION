@@ -7,9 +7,7 @@ FROM mypython
 RUN git clone https://github.com/Fefel76/CAM_SUPERVISION.git
 WORKDIR CAM_SUPERVISION
 
-RUN mkdir ./log
-RUN mkdir ./static
-RUN mkdir ./conf
+RUN mkdir ./log && mkdir ./static && mkdir ./conf
 EXPOSE 5002
 RUN pip3 install -r requirements.txt
 ENV FLASK_APP=main.py

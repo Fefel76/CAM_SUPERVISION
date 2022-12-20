@@ -15,7 +15,7 @@ app = Flask(__name__)
 def get_IP():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
-    return "192.168.0.1"
+    return "192.168.1.18"
     #return s.getsockname()[0]
 
 
@@ -83,8 +83,10 @@ def get_log(N=10):
         with open("log/"+logs[i]) as file:
             # loop to read iterate
             # last n lines and print it
+            texte+=logs[i]+'<BR>'
             for line in (file.readlines()[-N:]):
-                texte+=line+'\n'
+                texte+=line
+
 
     return render_template('log.html',texte=texte,ip=get_IP())
 
