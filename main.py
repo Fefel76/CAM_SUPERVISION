@@ -10,7 +10,6 @@ app = Flask(__name__)
 
 
 
-
 #TODO réseaux IP DOCKER cf network
 def get_IP():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
