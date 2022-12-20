@@ -8,13 +8,17 @@ import socket
 logging.basicConfig(filename='./log/supervision.log',level=logging.DEBUG,format='%(asctime)s -- %(funcName)s -- %(process)d -- %(levelname)s -- %(message)s')
 app = Flask(__name__)
 
-#TODO réseaux IP DOCKER
+
+
+
+#TODO réseaux IP DOCKER cf network
 def get_IP():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
-    return s.getsockname()[0]
+    return "192.168.0.1"
+    #return s.getsockname()[0]
 
-#TODO gestion mémoire via générateur yield
+
 def get_all_images():
     image_folder = 'static'
     images = [img for img in os.listdir(image_folder)
@@ -25,7 +29,7 @@ def get_all_images():
 
     return images
 
-#TODO multiple param pour gérer chaque camera
+
 def read_param(parametres={"decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1}):
 
     try:
@@ -38,7 +42,7 @@ def read_param(parametres={"decoupe":10,"seuil":10,"winStride":4,"padding":4,"sc
     return parametres
 
 
-#TODO tests des résultats faux-positifs
+
 @app.route('/param', methods=["GET","POST"])
 def param():
     parametres={}
@@ -56,11 +60,34 @@ def param():
             logging.warning("pas de données dans le POST param")
     return render_template('param.html',parametres=read_param(),ip=get_IP())
 
-#TODO gestion des pages
+#TODO gestion des pages création d'onglet
 @app.route('/')
 def photo():
     photos = get_all_images()
-    return render_template('photo.html',photos=photos,ip=get_IP())
+    pages=(photos.__len__()//10)+1
+    return render_template('photo.html',photos=photos,ip=get_IP(),pages=pages)
+
+#TODO get_log mise en forme HTML
+@app.route('/log')
+def get_log(N=10):
+    """
+    lecture des dernières lignes
+    :return: 
+    """
+    log_folder = 'log'
+    logs = [img for img in os.listdir(log_folder)
+              if img.endswith(".log") or
+              img.endswith(".txt")]
+    texte=''
+    for i in range(0,logs.__len__()):
+        with open("log/"+logs[i]) as file:
+            # loop to read iterate
+            # last n lines and print it
+            for line in (file.readlines()[-N:]):
+                texte+=line+'\n'
+
+    return render_template('log.html',texte=texte)
+
 
 
 
