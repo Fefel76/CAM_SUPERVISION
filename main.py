@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import time
+import logging
 import pickle
 
+logging.basicConfig(filename='./log/supervision.log',level=logging.DEBUG,format='%(asctime)s -- %(funcName)s -- %(process)d -- %(levelname)s -- %(message)s')
 app = Flask(__name__)
 
 
-
+#TODO gestion mémoire via générateur yield
 def get_all_images():
     image_folder = 'static'
     images = [img for img in os.listdir(image_folder)
@@ -17,6 +19,7 @@ def get_all_images():
 
     return images
 
+#TODO multiple param pour gérer chaque camera
 def read_param(parametres={"decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1}):
 
     try:
@@ -24,11 +27,12 @@ def read_param(parametres={"decoupe":10,"seuil":10,"winStride":4,"padding":4,"sc
             parametres = pickle.load(f)
     except:
         pickle.dump(parametres, open("./conf/param.txt", "wb"))
+        logging.warning("pas de fichier param.txt , création par défaut")
 
     return parametres
 
 
-
+#TODO tests des résultats faux-positifs
 @app.route('/param', methods=["GET","POST"])
 def param():
     parametres={}
@@ -40,12 +44,13 @@ def param():
             parametres['winStride'] = request.form['winStride']
             parametres['padding'] = request.form['padding']
             parametres['scale'] = request.form['scale']
-            print(parametres)
+            logging.debug(parametres)
             pickle.dump(parametres, open("./conf/param.txt", "wb"))
         except:
-            print("pas de données")
+            logging.warning("pas de données dans le POST param")
     return render_template('param.html',parametres=read_param())
 
+#TODO gestion des pages
 @app.route('/')
 def photo():
     photos = get_all_images()
@@ -54,4 +59,4 @@ def photo():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5002,  debug=False)
