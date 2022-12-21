@@ -29,7 +29,7 @@ def get_all_images():
     return images
 
 
-def read_param(parametres={"decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1,"min_blocs":5}):
+def read_param(parametres={"HD":"off","decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1,"min_blocs":5}):
 
     try:
         with open('./conf/param.txt', 'rb') as f:
@@ -48,6 +48,7 @@ def param():
     if request.method == 'POST':
 
         try:
+            parametres['HD'] = request.form['HD']
             parametres['decoupe'] = request.form['decoupe']
             parametres['seuil'] = request.form['seuil']
             parametres['winStride'] = request.form['winStride']
