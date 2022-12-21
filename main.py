@@ -29,7 +29,7 @@ def get_all_images():
     return images
 
 
-def read_param(parametres={"decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1}):
+def read_param(parametres={"decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1,"min_blocs":5}):
 
     try:
         with open('./conf/param.txt', 'rb') as f:
@@ -53,6 +53,7 @@ def param():
             parametres['winStride'] = request.form['winStride']
             parametres['padding'] = request.form['padding']
             parametres['scale'] = request.form['scale']
+            parametres['min_blocs'] = request.form['min_blocs']
             logging.debug(parametres)
             pickle.dump(parametres, open("./conf/param.txt", "wb"))
         except:
