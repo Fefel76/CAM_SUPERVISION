@@ -13,7 +13,12 @@
 <h1>
     <a href="http://{{ip}}:5001" class="w3-button">Captures caméras</a>
 </h1>
+
 </div>
+  <form class="w3-container" action="/log" method="POST">
+        <label class="w3-text-blue">Nombre de lignes à visualiser </label>
+        <input class="w3-input w3-border w3-hover-black" type="text" id="N" name="N" value={{N}}>
+  </form>
 {% autoescape false %}
 {{texte}}
 {% endautoescape %}

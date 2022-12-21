@@ -69,12 +69,15 @@ def photo():
     return render_template('photo.html',photos=photos,ip=get_IP(),pages=pages)
 
 #TODO get_log mise en forme HTML
-@app.route('/log')
+@app.route('/log', methods=["GET","POST"])
 def get_log(N=10):
     """
     lecture des dernières lignes
     :return: 
     """
+    if request.method == 'POST':
+        N = int(request.form['N'])
+
     log_folder = 'log'
     logs = [img for img in os.listdir(log_folder)
               if img.endswith(".log") or
@@ -89,7 +92,7 @@ def get_log(N=10):
                 texte+=line+'<BR>'
 
 
-    return render_template('log.html',texte=texte,ip=get_IP())
+    return render_template('log.html',texte=texte,ip=get_IP(), N=N)
 
 
 
