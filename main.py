@@ -4,6 +4,8 @@ import time
 import logging
 import pickle
 import socket
+from datetime import datetime
+
 
 logging.basicConfig(filename='./log/supervision.log',level=logging.DEBUG,format='%(asctime)s -- %(funcName)s -- %(process)d -- %(levelname)s -- %(message)s')
 app = Flask(__name__)
@@ -94,7 +96,30 @@ def get_log(N=10):
 
     return render_template('log.html',texte=texte,ip=get_IP(), N=N)
 
+@app.route('/purge', methods=["GET","POST"])
+def purge():
+    rep='static/'
+    t=datetime.now()
+    if request.method == 'POST':
+        d= request.form['d']
+        d=datetime.strptime(d, '%Y-%m-%d')
 
+        # récupération de la liste des images disponibles
+        images=get_all_images()
+
+        for im in images:
+            t=time.ctime(os.path.getctime(rep+im))
+            t=datetime.strptime(t, "%a %b %d %H:%M:%S %Y")
+            if t<d:
+                print("fichier {} supprimé".format(im))
+                logging.info("fichier {} supprimé".format(im))
+                try:
+                    os.remove(rep+im)
+                except:
+                    logging.error("Erreur lors de la suppression du fichier {} ".format(im))
+
+
+    return render_template('purge.html', ip=get_IP(), d=t.strftime("%Y-%m-%d"))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002,  debug=False)
