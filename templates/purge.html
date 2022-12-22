@@ -17,10 +17,13 @@
 </div>
   <form class="w3-container" action="/purge" method="POST">
         <label class="w3-text-blue">Historique des dates à purger </label>
-        <input class="w3-input w3-border w3-hover-black" type="date" id="d" name="d" value={{d}}>
+        <input class="w3-input w3-border w3-hover-blue" type="date" id="d" name="d" value={{d}}>
         <input type="submit" value="Purger">
   </form>
 
+{% autoescape false %}
+{{texte}}
+{% endautoescape %}
 
 <a class="w3-panel w3-center" href="http://{{ip}}:5002" class="w3-button">retour</a>
 </body>

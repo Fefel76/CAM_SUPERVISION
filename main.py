@@ -98,6 +98,7 @@ def get_log(N=10):
 
 @app.route('/purge', methods=["GET","POST"])
 def purge():
+    texte=''
     rep='static/'
     t=datetime.now()
     if request.method == 'POST':
@@ -111,15 +112,16 @@ def purge():
             t=time.ctime(os.path.getctime(rep+im))
             t=datetime.strptime(t, "%a %b %d %H:%M:%S %Y")
             if t<d:
-                print("fichier {} supprimé".format(im))
-                logging.info("fichier {} supprimé".format(im))
+                texte+="fichier <B> {} </B>supprimé <BR>".format(im)
+                logging.info("Fichier {} supprimé".format(im))
+
                 try:
                     os.remove(rep+im)
                 except:
                     logging.error("Erreur lors de la suppression du fichier {} ".format(im))
 
 
-    return render_template('purge.html', ip=get_IP(), d=t.strftime("%Y-%m-%d"))
+    return render_template('purge.html', ip=get_IP(), d=t.strftime("%Y-%m-%d"), texte=texte)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002,  debug=False)
