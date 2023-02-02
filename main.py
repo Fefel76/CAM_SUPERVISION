@@ -70,7 +70,7 @@ def photo():
     pages=(photos.__len__()//10)+1
     return render_template('photo.html',photos=photos,ip=get_IP(),pages=pages)
 
-#TODO get_log mise en forme HTML
+
 @app.route('/log', methods=["GET","POST"])
 def get_log(N=10):
     """

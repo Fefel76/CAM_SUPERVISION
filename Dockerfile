@@ -4,12 +4,15 @@ FROM mypython
 #ENV TZ="Europe/Paris"
 #RUN apt-get update && apt install -y git
 
-RUN git clone https://github.com/Fefel76/CAM_SUPERVISION.git
 WORKDIR CAM_SUPERVISION
-
-RUN mkdir ./log && mkdir ./static && mkdir ./conf
-EXPOSE 5002
+# Requirement
+ADD requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
+#création des répertoires
+RUN mkdir ./log && mkdir ./static && mkdir ./conf
+
+# configuration
+EXPOSE 5002
 ENV FLASK_APP=main.py
 
 CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5002"]
