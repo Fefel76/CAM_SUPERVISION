@@ -10,6 +10,7 @@ ADD requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 #création des répertoires
 RUN mkdir ./log && mkdir ./static && mkdir ./conf
+ADD . .
 
 # configuration
 EXPOSE 5002
