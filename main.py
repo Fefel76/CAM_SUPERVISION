@@ -31,20 +31,21 @@ def get_all_images():
     return images
 
 
-def read_param(parametres={"HD":"off","decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1,"min_blocs":5}):
+def read_param(name,parametres={"HD":"off","decoupe":10,"seuil":10,"winStride":4,"padding":4,"scale":1.1,"min_blocs":5}):
 
     try:
-        with open('./conf/param.txt', 'rb') as f:
+        filename='./conf/param_'+name+'.txt'
+        with open(filename, 'rb') as f:
             parametres = pickle.load(f)
     except:
-        pickle.dump(parametres, open("./conf/param.txt", "wb"))
+        pickle.dump(parametres, open(filename, "wb"))
         logging.warning("pas de fichier param.txt , création par défaut")
 
     return parametres
 
 
 
-@app.route('/param', methods=["GET","POST"])
+@app.route('/param/<name>', methods=["GET","POST"])
 def param():
     parametres={}
     if request.method == 'POST':
@@ -58,10 +59,11 @@ def param():
             parametres['scale'] = request.form['scale']
             parametres['min_blocs'] = request.form['min_blocs']
             logging.debug(parametres)
-            pickle.dump(parametres, open("./conf/param.txt", "wb"))
+            filename=filename='./conf/param_'+{name}+'.txt'
+            pickle.dump(parametres, open(filename, "wb"))
         except:
             logging.warning("pas de données dans le POST param")
-    return render_template('param.html',parametres=read_param(),ip=get_IP())
+    return render_template('param.html',parametres=read_param(name={name}),ip=get_IP())
 
 #TODO gestion des pages création d'onglet
 @app.route('/')
