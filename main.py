@@ -46,9 +46,11 @@ def read_param(name,parametres={"HD":"off","decoupe":10,"seuil":10,"winStride":4
 
 
 @app.route('/param/<name>', methods=["GET","POST"])
-def param():
+def param(name):
     parametres={}
     if request.method == 'POST':
+        print("name:",name)
+
 
         try:
             parametres['HD'] = request.form['HD']
@@ -59,11 +61,11 @@ def param():
             parametres['scale'] = request.form['scale']
             parametres['min_blocs'] = request.form['min_blocs']
             logging.debug(parametres)
-            filename=filename='./conf/param_'+{name}+'.txt'
+            filename='./conf/param_'+name+'.txt'
             pickle.dump(parametres, open(filename, "wb"))
         except:
             logging.warning("pas de données dans le POST param")
-    return render_template('param.html',parametres=read_param(name={name}),ip=get_IP())
+    return render_template('param.html',parametres=read_param(name=name),ip=get_IP(),name=name)
 
 #TODO gestion des pages création d'onglet
 @app.route('/')
@@ -126,4 +128,4 @@ def purge():
     return render_template('purge.html', ip=get_IP(), d=t.strftime("%Y-%m-%d"), texte=texte)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002,  debug=False)
+    app.run(host='0.0.0.0', port=5002,  debug=True)

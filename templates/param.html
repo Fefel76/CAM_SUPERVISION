@@ -12,7 +12,7 @@
     <a href="http://{{ip}}:5001" class="w3-button">Gestions des caméras</a>
 </h1>
 </div>
-<form class="w3-container" action="/param" method="POST">
+<form class="w3-container" action="/param/{{name}}" method="POST">
     <b>
     <label class="w3-text-blue">Activation flux HD => "on" pour activer </label>
     <input class="w3-input w3-border w3-hover-black" type="text" id="HD" name="HD" value={{parametres.HD}}>
