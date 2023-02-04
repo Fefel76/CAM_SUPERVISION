@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Paramètres des photos</title>
+    <title>Paramètres des photos de la caméra {{name}}</title>
     <meta name='viewport' content="width-device-width, initial-scale=1" charset='UTF-8'>
     <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
@@ -11,6 +11,7 @@
 <h1>
     <a href="http://{{ip}}:5001" class="w3-button">Gestions des caméras</a>
 </h1>
+    <h3> Paramètres de la caméra {{name}}</h3>
 </div>
 <form class="w3-container" action="/param/{{name}}" method="POST">
     <b>
