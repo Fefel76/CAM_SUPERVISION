@@ -121,8 +121,8 @@ def purge():
                 logging.info("Fichier {} supprimé".format(im))
 
                 try:
-                    #os.remove(rep+im)
-                    shutil.move(rep+im,"/home/plh/www")
+                    os.remove(rep+im)
+                    #shutil.move(rep+im,"/home/plh/www")
                 except:
                     logging.error("Erreur lors du déplacement du fichier {} ".format(im))
 
