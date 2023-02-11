@@ -106,23 +106,30 @@ def purge():
     texte=''
     rep='./static/'
     t=datetime.now()
+
+
     if request.method == 'POST':
         d= request.form['d']
         d=datetime.strptime(d, '%Y-%m-%d')
 
         # récupération de la liste des images disponibles
         images=get_all_images()
+        try:
+            os.mkdir(rep+'archive')
+        except:
+            logging.error('Probleme de création repertoire archive')
 
         for im in images:
             t=time.ctime(os.path.getctime(rep+im))
             t=datetime.strptime(t, "%a %b %d %H:%M:%S %Y")
             if t<d:
-                texte+="fichier <B> {} </B>supprimé <BR>".format(im)
-                logging.info("Fichier {} supprimé".format(im))
+                texte+="fichier <B> {} </B> archivé <BR>".format(im)
+                logging.info("Fichier {} archivé".format(im))
 
                 try:
-                    os.remove(rep+im)
-                    #shutil.move(rep+im,"/home/plh/www")
+                    #os.remove(rep+im)
+                    shutil.move(rep+im,rep+'/archive')
+                    print('deplace' , rep+im)
                 except:
                     logging.error("Erreur lors du déplacement du fichier {} ".format(im))
 
