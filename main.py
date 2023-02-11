@@ -5,6 +5,7 @@ import logging
 import pickle
 import socket
 from datetime import datetime
+import shutil
 
 
 logging.basicConfig(filename='./log/supervision.log',level=logging.DEBUG,format='%(asctime)s -- %(funcName)s -- %(process)d -- %(levelname)s -- %(message)s')
@@ -103,7 +104,7 @@ def get_log(N=10):
 @app.route('/purge', methods=["GET","POST"])
 def purge():
     texte=''
-    rep='static/'
+    rep='./static/'
     t=datetime.now()
     if request.method == 'POST':
         d= request.form['d']
@@ -120,9 +121,10 @@ def purge():
                 logging.info("Fichier {} supprimé".format(im))
 
                 try:
-                    os.remove(rep+im)
+                    #os.remove(rep+im)
+                    shutil.move(rep+im,"/home/plh/www")
                 except:
-                    logging.error("Erreur lors de la suppression du fichier {} ".format(im))
+                    logging.error("Erreur lors du déplacement du fichier {} ".format(im))
 
 
     return render_template('purge.html', ip=get_IP(), d=t.strftime("%Y-%m-%d"), texte=texte)
